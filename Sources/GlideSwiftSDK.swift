@@ -11,6 +11,6 @@ import Foundation
 public class GlideSwiftSDK {
     
     public func printZibi(){
-        print("ZIBI")
+        print("xxx-Amir-xxx")
     }
 }
