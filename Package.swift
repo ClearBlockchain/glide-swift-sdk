@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "GlideSwiftSDK",
+    name: "glide-swift-sdk",
     products: [
         .library(
             name: "GlideSwiftSDK",
@@ -13,7 +13,7 @@ let package = Package(
     dependencies: [],
     targets: [
         .target(
-            name: "GlideSwiftSDK",
+            name: "glide-swift-sdk",
             dependencies: []),
     ]
 )
