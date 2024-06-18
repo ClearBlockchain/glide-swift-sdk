@@ -10,6 +10,8 @@ import Foundation
 
 public class GlideSwiftSDK {
     
+    public init(){}
+    
     public func printZibi(){
         print("xxx-Amir-xxx")
     }
