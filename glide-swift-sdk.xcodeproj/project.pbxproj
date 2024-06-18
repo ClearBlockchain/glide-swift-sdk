@@ -9,14 +9,14 @@
 /* Begin PBXBuildFile section */
 		B32671DA2C221FE30060ED92 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32671D92C221FE30060ED92 /* Package.swift */; };
 		B32671DC2C2220BA0060ED92 /* GlideSwiftSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32671DB2C2220BA0060ED92 /* GlideSwiftSDK.swift */; };
-		B34215A32C1E2629004B1BC9 /* glide_swift_sdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B34215A22C1E2629004B1BC9 /* glide_swift_sdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B34215A32C1E2629004B1BC9 /* GlideSwiftSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = B34215A22C1E2629004B1BC9 /* GlideSwiftSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B32671D92C221FE30060ED92 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		B32671DB2C2220BA0060ED92 /* GlideSwiftSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlideSwiftSDK.swift; sourceTree = "<group>"; };
 		B342159F2C1E2629004B1BC9 /* glide_swift_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = glide_swift_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B34215A22C1E2629004B1BC9 /* glide_swift_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glide_swift_sdk.h; sourceTree = "<group>"; };
+		B34215A22C1E2629004B1BC9 /* GlideSwiftSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlideSwiftSDK.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +50,7 @@
 		B34215A12C1E2629004B1BC9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				B34215A22C1E2629004B1BC9 /* glide_swift_sdk.h */,
+				B34215A22C1E2629004B1BC9 /* GlideSwiftSDK.h */,
 				B32671DB2C2220BA0060ED92 /* GlideSwiftSDK.swift */,
 			);
 			path = Sources;
@@ -63,7 +63,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B34215A32C1E2629004B1BC9 /* glide_swift_sdk.h in Headers */,
+				B34215A32C1E2629004B1BC9 /* GlideSwiftSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
