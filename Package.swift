@@ -4,19 +4,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "glide-swift-sdk",
-    platforms: [
-            .iOS(.v13)
-        ],
-        products: [
-            .library(
-                name: "GlideSwiftSDK",
-                targets: ["GlideSwiftSDK"]),
-        ],
+    name: "GlideSwiftSDK",
+    products: [
+        .library(
+            name: "GlideSwiftSDK",
+            targets: ["GlideSwiftSDK"]),
+    ],
+    dependencies: [],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .executableTarget(
-            name: "glide-swift-sdk"),
+        .target(
+            name: "GlideSwiftSDK",
+            dependencies: []),
     ]
 )
