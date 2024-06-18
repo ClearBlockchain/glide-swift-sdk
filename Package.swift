@@ -8,7 +8,7 @@ let package = Package(
     products: [
         .library(
             name: "GlideSwiftSDK",
-            targets: ["GlideSwiftSDK"]),
+            targets: ["glide-swift-sdk"]),
     ],
     dependencies: [],
     targets: [
