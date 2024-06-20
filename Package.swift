@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
-        .package(url: "https://github.com/auth0/JWTDecode.swift", .upToNextMajor(from: "3.1.0")),
+        .package(url: "https://github.com/auth0/JWTDecode.swift", from: "3.1.0"),
     ],
     targets: [
         .target(
