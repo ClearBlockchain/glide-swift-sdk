@@ -21,7 +21,7 @@ func configureLogger() {
             return MultiplexLogHandler(handlers)
         }
     }
-
+    
     // Set the log level based on environment variable or default to error
     let logLevel = ProcessInfo.processInfo.environment["LOG_LEVEL"] ?? "error"
     logger.logLevel = Logger.Level(rawValue: logLevel) ?? .error
