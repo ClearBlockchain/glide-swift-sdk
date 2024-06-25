@@ -65,3 +65,17 @@ func randomString(length: Int) -> String {
     let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     return String((0..<length).compactMap { _ in letters.randomElement() })
 }
+
+func percentEncoded(data: [String: String]) -> Data? {
+    return data.map {
+        key,
+        value in
+            guard let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                    let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+                return ""
+            }
+            return "\(encodedKey)=\(encodedValue)"
+    }
+    .joined(separator: "&")
+    .data(using: .utf8)
+}

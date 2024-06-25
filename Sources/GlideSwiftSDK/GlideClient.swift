@@ -1,31 +1,5 @@
 import Foundation
 
-protocol AuthConfigProtocol {
-    var scopes: [String] { get set }
-    var loginHint: String? { get set }
-}
-
-struct BaseAuthConfig: AuthConfigProtocol {
-    var scopes: [String]
-    var loginHint: String?
-}
-
-struct AuthConfig: AuthConfigProtocol {
-    var scopes: [String]
-    var loginHint: String?
-    var provider: SessionType
-}
-
-struct AuthenticationResponse {
-    var session: Session?
-    var redirectUrl: URL?
-}
-
-struct CibaAuthResponse: Codable {
-    var authReqId: String
-    var expiresIn: Int
-    var interval: Int
-}
 
 struct NumberVerificationResponse: Codable {
     var devicePhoneNumberVerified: Bool
@@ -68,19 +42,7 @@ enum DeviceIDType: String, Codable {
     case networkAccessIdentifier = "networkAccessIdentifier"
 }
 
-func percentEncoded(data: [String: String]) -> Data? {
-    return data.map { 
-        key, 
-        value in
-            guard let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                    let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-                return ""
-            }
-            return "\(encodedKey)=\(encodedValue)"
-    }
-    .joined(separator: "&")
-    .data(using: .utf8)
-}
+
 
 @available(iOS 17.0, macOS 14.0, *)
 class GlideClient {
@@ -108,9 +70,10 @@ class GlideClient {
     private func getCibaAuthLoginHint(authConfig: AuthConfigProtocol) async throws -> CibaAuthResponse {
         logger.debug("Sending CIBA auth request, authConfig: \(authConfig)")
 
-        var scopes = ["scope": authConfig.scopes.joined(separator: " ")]
+        var scopes = ["scope": "openId"]
+        scopes["purpos"] = "dpv:FraudPreventionAndDetection:sim-swap"
         if let loginHint = authConfig.loginHint {
-            scopes["loginHint"] = loginHint
+            scopes["login_hint"] = loginHint
         }
 
         guard let url = URL(string: "\(config.internalUrls.authBaseUrl)/oauth2/backchannel-authentication") else {
@@ -197,7 +160,7 @@ class GlideClient {
 
         do {
             let cibaAuthResponse = try await getCibaAuthLoginHint(authConfig: authConfig)
-            let session = try await pollCibaToken(authReqId: cibaAuthResponse.authReqId, interval: cibaAuthResponse.interval)
+            let session = try await pollCibaToken(authReqId: cibaAuthResponse.auth_req_id, interval: cibaAuthResponse.interval)
 
             logger.debug("Received CIBA session")
             return session
