@@ -32,7 +32,7 @@ public final class Glide {
         let authBaseUrl =  "https://oidc.gateway-x.io"
         let apiBaseUrl = "https://api.gateway-x.io"
         
-        self.configs = GlideConfig(clientId: clientId, clientSecret: clientSecret, redirectUri: clientSecret, internalUrls: (authBaseUrl: authBaseUrl, apiBaseUrl: apiBaseUrl))
+        self.configs = GlideConfig(clientId: clientId, clientSecret: clientSecret, redirectUri: redirectUri, internalUrls: (authBaseUrl: authBaseUrl, apiBaseUrl: apiBaseUrl))
     }
     
     public func cibaAuthenticate(completion: @escaping (String) -> Void) {

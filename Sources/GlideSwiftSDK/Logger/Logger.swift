@@ -1,8 +1,8 @@
 import Foundation
 
- let logger = Logger()
+ let logger = AppLogger()
 
-class Logger {
+class AppLogger {
     enum LogLevel: String {
         case error = "❌ ERROR"
         case info = "ℹ️ INFO"

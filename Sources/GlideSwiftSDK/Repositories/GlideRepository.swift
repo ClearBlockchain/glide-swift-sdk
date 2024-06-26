@@ -19,7 +19,7 @@ class GlideRepository : Repository {
                 logger.error("CIBA Auth failed with error: \(error)")
             default: break
             }
-        }, receiveValue: { [weak self] token in
+        }, receiveValue: { token in
             logger.info("CIBA Auth success with token: \(token)")
             completion(token)
         })
