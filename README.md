@@ -1,37 +1,37 @@
-# glide-swift-sdk
+# GlideSwiftSDK
 
 
 
 ## Introduction
 
-`glide-swift-sdk` is our SDK for integrating with our systems
+`GlideSwiftSDK` is our SDK for integrating with our systems
 
 
 ## Installation
 
 ### Cocoapods
 
-[Cocoapods](https://cocoapods.org/#install) is a dependency manager for Swift projects. To use glide-swift-sdk with CocoaPods, add it in your `Podfile`.
+[Cocoapods](https://cocoapods.org/#install) is a dependency manager for Swift projects. To use GlideSwiftSDK with CocoaPods, add it in your `Podfile`.
 
 ```ruby
-pod 'glide-swift-sdk'
+pod 'GlideSwiftSDK'
 ```
 
 
 ### Swift Package Manager
 
-The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. To use glide-swift-sdk with Swift Package Manger, add it to `dependencies` in your `Package.swift`
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. To use GlideSwiftSDK with Swift Package Manger, add it to `dependencies` in your `Package.swift`
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ClearBlockchain/glide-swift-sdk.git")
+    .package(url: "https://github.com/ClearBlockchain/GlideSwiftSDK.git")
 ]
 ```
 
 
 ## Usage
 
-Firstly, import `glide_swift_sdk`.
+Firstly, import `GlideSwiftSDK`.
 
 ```swift
 import glide_swift_sdk
