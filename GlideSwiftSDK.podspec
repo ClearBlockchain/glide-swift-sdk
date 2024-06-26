@@ -1,18 +1,27 @@
-
-
 Pod::Spec.new do |s|
-  s.name         = 'GlideSwiftSDK'
-  s.version      = '1.0.0'
-  s.summary      = 'A Glide Swift SDK'
-  s.homepage     = 'https://github.com/ClearBlockchain/glide-swift-sdk'
-  s.license      = { :type => 'MIT', :file => 'LICENSE' }
-  s.author       = { 'Glide' => 'amiravisar89@gmail.com' }
-  s.source       = { :git => 'https://github.com/ClearBlockchain/glide-swift-sdk.git', :tag => s.version.to_s }
-  s.platform     = :ios, '17.0'
-  s.source_files = 'Sources/GlideSwiftSDK/**/*.{swift}'
-  s.requires_arc = true
-  s.dependency 'JWTDecode', '3.1.0'
+  s.name              = 'GlideSwiftSDK'
+  s.version           = '1.0.0'
+  s.summary           = 'A Glide Swift SDK'
+  s.homepage          = 'https://github.com/ClearBlockchain/glide-swift-sdk'
+  s.license           = { type: 'MIT' }
+  s.author            = { 'Glide' => 'amiravisar89@gmail.com' }
+  s.documentation_url = 'https://github.com/ClearBlockchain/glide-swift-sdk/blob/master/README.md'
+
   s.ios.deployment_target  = '17.0'
   s.swift_version          = '5.9'
+
+
+  s.source = { git: 'https://github.com/ClearBlockchain/glide-swift-sdk.git',
+               tag: s.version }
+
+  s.subspec 'GlideSwiftSDK' do |ss|
+    ss.source_files = 'Sources/GlideSwiftSDK/**/*.{swift}'
+  end
+
+  s.default_subspec = 'GlideSwiftSDK'
+
+  s.dependency 'JWTDecode', '3.1.0'
+
+  s.requires_arc = true
 
 end
