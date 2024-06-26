@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "GlideSwiftSDK",
-            targets: ["glide-swift-sdk"]),
+            targets: ["GlideSwiftSDK"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
@@ -17,7 +17,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "glide-swift-sdk",
+            name: "GlideSwiftSDK",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "JWTDecode", package: "JWTDecode.swift")
