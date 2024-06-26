@@ -16,7 +16,7 @@ public final class Glide {
     let authConfigs: AuthConfig!
     
     public static func configure() {
-        Glide.instance = Glide(repository: GlideRepository(cibaAuthFlow: CibaAuthFlow(queuesProvider: QueuesProvider())))
+        Glide.instance = Glide(repository: GlideRepository(cibaAuthFlow: CibaAuthFlow()))
     }
     
     init(repository : Repository) {

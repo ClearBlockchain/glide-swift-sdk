@@ -1,54 +1,80 @@
 import Foundation
 import Combine
 
+let accessTokenKey = "access_token"
+let successCode = 200
+
 class CibaAuthFlow {
     
-    private let queuesProvider: QueuesProvider!
-    
-    init(queuesProvider: QueuesProvider) {
-        self.queuesProvider = queuesProvider
+    public func authenticate(authConfig: AuthConfigProtocol, config: GlideConfig) -> AnyPublisher<String, Error>? {
+        
+        let triggerPublisher : Just<Int> = Just(.zero)
+        
+        let concatPublisher = triggerPublisher
+            .compactMap({ [weak self]_ in
+                return self?.getCibaAuthLoginHintPiublisher(authConfig: authConfig, config: config)
+            })
+            .flatMap{$0}
+            .map { $0.auth_req_id}
+            .compactMap({ [weak self] id in
+                return self?.getCibaAuthToken(authReqId : id, config: config)
+            })
+            .flatMap {$0}
+            .eraseToAnyPublisher()
+        
+        return concatPublisher
+        
     }
     
-    public func authenticate(authConfig: AuthConfigProtocol, config: GlideConfig) -> AnyPublisher<String, Error>? {
+    private func getCibaAuthLoginHintPiublisher(authConfig: AuthConfigProtocol, config: GlideConfig) -> AnyPublisher<CibaAuthResponse, Error>? {
         
         guard let cibaAuthRequest = getCibaAuthLoginHintRequest(authConfig: authConfig, config: config) else {
             logger.error("CibaAuthFlow: getCibaAuthLoginHint faild init request")
             return nil
         }
-        
-        let firstPublisher = URLSession.shared.dataTaskPublisher(for: cibaAuthRequest)
-            .map { $0.data }
+        return  URLSession.shared.dataTaskPublisher(for: cibaAuthRequest)
+            .tryMap { output in
+                    guard let httpResponse = output.response as? HTTPURLResponse,
+                          httpResponse.statusCode == successCode else {
+                        logger.error("CibAuthFlow: getCibaAuthLoginHint failed request: \(output)")
+                        throw URLError(.badServerResponse)
+                    }
+                    return output.data
+                }
             .decode(type: CibaAuthResponse.self, decoder: JSONDecoder())
             .catch { error -> AnyPublisher<CibaAuthResponse, Error> in
                 logger.error("CibAuthFlow: cibaAuthRequest failed with errr: \(error)")
                 return Fail(error: error).eraseToAnyPublisher()
-            }
+            }.eraseToAnyPublisher()
+    }
+    
+    private func getCibaAuthToken(authReqId : String, config: GlideConfig) -> AnyPublisher<String, Error>? {
         
-        return firstPublisher
-            .map { $0.auth_req_id}
-            .compactMap { [weak self] id -> URLRequest?  in
-                guard let cibaTokenRequest = self?.getCibaTokenRequest(authReqId: id, config: config) else {
-                    logger.error("CibaAuthFlow: cibaTokenRequest faild init request")
+        guard let cibaTokenRequest = getCibaTokenRequest(authReqId: authReqId, config: config) else {
+            logger.error("CibaAuthFlow: cibaTokenRequest faild init request")
+            return nil
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: cibaTokenRequest)
+            .tryMap { output in
+                    guard let httpResponse = output.response as? HTTPURLResponse,
+                          httpResponse.statusCode == successCode else {
+                        logger.error("CibAuthFlow: getCibaAuthToken failed request: \(output)")
+                        throw URLError(.badServerResponse)
+                    }
+                    return output.data
+                }
+            .decode(type: [String: String].self, decoder: JSONDecoder())
+            .compactMap { dictionary -> String? in
+                guard let accessToken = dictionary[accessTokenKey] else {
                     return nil
                 }
-                return cibaTokenRequest
-            }.flatMap { request in
-                return URLSession.shared.dataTaskPublisher(for: request)
-                    .map { $0.data }
-                    .decode(type: [String: String].self, decoder: JSONDecoder())
-                    .compactMap { dictionary -> String? in
-                        guard let accessToken = dictionary["access_token"] else {
-                            return nil
-                        }
-                        logger.debug("CibaAuthFlow: Received CIBA token response, data: \(accessToken)")
-                        return accessToken
-                    }.catch { error -> AnyPublisher<String, Error> in
-                        logger.error("CibAuthFlow: getCibaTokenRequest failed with errr: \(error)")
-                        return Fail(error: error).eraseToAnyPublisher()
-                    }
+                logger.debug("CibaAuthFlow: Received CIBA token response, data: \(accessToken)")
+                return accessToken
+            }.catch { error -> AnyPublisher<String, Error> in
+                logger.error("CibAuthFlow: getCibaAuthToken failed with errr: \(error)")
+                return Fail(error: error).eraseToAnyPublisher()
             }.eraseToAnyPublisher()
-        
-        
     }
     
     private func getCibaAuthLoginHintRequest(authConfig: AuthConfigProtocol, config: GlideConfig) -> URLRequest? {
@@ -93,7 +119,6 @@ class CibaAuthFlow {
     }
     
 }
-
 
 struct CibaAuthResponse: Codable {
     var auth_req_id: String
