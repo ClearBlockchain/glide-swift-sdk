@@ -14,11 +14,7 @@ Pod::Spec.new do |s|
   s.source = { git: 'https://github.com/ClearBlockchain/glide-swift-sdk.git',
                tag: s.version }
 
-  s.subspec 'GlideSwiftSDK' do |ss|
-    ss.source_files = 'Sources/GlideSwiftSDK/**/*.{swift}'
-  end
-
-  s.default_subspec = 'GlideSwiftSDK'
+  s.source_files = 'Sources/**/*.{swift}'
 
   s.dependency 'JWTDecode', '3.1.0'
 
