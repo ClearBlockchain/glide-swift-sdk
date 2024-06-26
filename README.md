@@ -34,7 +34,7 @@ dependencies: [
 Firstly, import `GlideSwiftSDK`.
 
 ```swift
-import glide_swift_sdk
+import GlideSwiftSDK
 ```
 
 Second, configure the SDK, recommended in `didFinishLaunchingWithOptions` in `AppDelegare.swift`.
