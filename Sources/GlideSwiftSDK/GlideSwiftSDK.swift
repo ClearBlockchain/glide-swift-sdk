@@ -26,13 +26,14 @@ public final class Glide {
                                       loginHint: "tel:+555123456789",
                                       provider: .ciba)
         
-        let clientId = "AGGX07J7DSM318XZPTNMQR"
-        let clientSecret =  "wOaUijbYgTkhKNlh8Y0f7vFwtw49drX"
+        let clientId = "AGGX6VJSW4F6UISLLDY5XF"
+        let clientSecret =  "wxWg4uh65QU9q8P0Nh3qO2UtAnRp702x"
         let redirectUri = "https://dev.gateway-x.io/dev-redirector/callback"
-        let authBaseUrl =  "https://oidc.gateway-x.io"
-        let apiBaseUrl = "https://api.gateway-x.io"
+        let authBaseUrl =  "https://oidc-staging.gateway-x.io"
+        let apiBaseUrl = "https://api-staging.gateway-x.io" // this use in sim swap
+        let phoneNumber = "+555123456789"
         
-        self.configs = GlideConfig(clientId: clientId, clientSecret: clientSecret, redirectUri: redirectUri, internalUrls: (authBaseUrl: authBaseUrl, apiBaseUrl: apiBaseUrl))
+        self.configs = GlideConfig(clientId: clientId, clientSecret: clientSecret, redirectUri: redirectUri, internalUrls: (authBaseUrl: authBaseUrl, apiBaseUrl: apiBaseUrl), phoneNumber: phoneNumber)
     }
     
     public func cibaAuthenticate(completion: @escaping (String) -> Void) {

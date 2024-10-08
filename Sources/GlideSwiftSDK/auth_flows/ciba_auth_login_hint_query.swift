@@ -1,10 +1,11 @@
 import Foundation
 import Combine
 
-let accessTokenKey = "access_token"
 let successCode = 200
 
 class CibaAuthFlow {
+    
+    let cellularDataProvider = CellularDataProvider()
     
     public func authenticate(authConfig: AuthConfigProtocol, config: GlideConfig) -> AnyPublisher<String, Error>? {
         
@@ -32,7 +33,8 @@ class CibaAuthFlow {
             logger.error("CibaAuthFlow: getCibaAuthLoginHint faild init request")
             return nil
         }
-        return  URLSession.shared.dataTaskPublisher(for: cibaAuthRequest)
+        
+        return URLSession.shared.dataTaskPublisher(for: cibaAuthRequest)
             .tryMap { output in
                     guard let httpResponse = output.response as? HTTPURLResponse,
                           httpResponse.statusCode == successCode else {
@@ -64,11 +66,9 @@ class CibaAuthFlow {
                     }
                     return output.data
                 }
-            .decode(type: [String: String].self, decoder: JSONDecoder())
-            .compactMap { dictionary -> String? in
-                guard let accessToken = dictionary[accessTokenKey] else {
-                    return nil
-                }
+            .decode(type: CibaTokenResponse.self, decoder: JSONDecoder())
+            .compactMap { response -> String? in
+                let accessToken = response.access_token
                 logger.debug("CibaAuthFlow: Received CIBA token response, data: \(accessToken)")
                 return accessToken
             }.catch { error -> AnyPublisher<String, Error> in
@@ -78,8 +78,8 @@ class CibaAuthFlow {
     }
     
     private func getCibaAuthLoginHintRequest(authConfig: AuthConfigProtocol, config: GlideConfig) -> URLRequest? {
-        var scopes = ["scope": "openId"]
-        scopes["purpos"] = "dpv:FraudPreventionAndDetection:sim-swap"
+        var scopes = ["scope": "openId",
+                      "purpos" : "dpv:FraudPreventionAndDetection:sim-swap"]
         if let loginHint = authConfig.loginHint {
             scopes["login_hint"] = loginHint
         }
@@ -89,7 +89,7 @@ class CibaAuthFlow {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue("Basic QUdHWDA3SjdEU00zMThYWlBUTk1RUjp3T2FVaWpiWWdUa2hLTmxoOFkwZjd2Rnd0dzQ5ZHJYcw==", forHTTPHeaderField: "Authorization")
+        request.addValue(getBasicAuthHeader(clientId: config.clientId, clientSecret: config.clientSecret), forHTTPHeaderField: "Authorization")
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = percentEncoded(data: scopes)
         return request
@@ -126,5 +126,14 @@ struct CibaAuthResponse: Codable {
     var interval: Int
     var consent_url: String
 }
+
+struct CibaTokenResponse: Codable {
+    var access_token: String
+    var expires_in: Int
+    var scope: String
+    var token_type: String
+}
+
+
 
 

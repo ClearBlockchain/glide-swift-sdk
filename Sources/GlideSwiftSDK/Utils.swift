@@ -5,6 +5,7 @@ struct GlideConfig {
     let clientSecret: String
     let redirectUri: String
     let internalUrls: (authBaseUrl: String, apiBaseUrl: String)
+    let phoneNumber: String
 }
 
 func getGlideConfig(clientId: String?, clientSecret: String?, redirectUri: String?, authBaseUrl: String?, apiBaseUrl: String?) throws -> GlideConfig {
@@ -27,7 +28,7 @@ func getGlideConfig(clientId: String?, clientSecret: String?, redirectUri: Strin
         clientId: clientId,
         clientSecret: clientSecret,
         redirectUri: redirectUri,
-        internalUrls: (authBaseUrl: authBaseUrl, apiBaseUrl: apiBaseUrl)
+        internalUrls: (authBaseUrl: authBaseUrl, apiBaseUrl: apiBaseUrl), phoneNumber: ""
     )
 }
 

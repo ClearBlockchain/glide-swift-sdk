@@ -377,6 +377,7 @@ class GlideClient {
         }
     }
 
+    //Amir use this after getting token
     public func checkSimSwap(phoneNumber: String, maxAge: Int) async throws -> Bool {
         logger.debug("Checking sim swap, phoneNumber: \(phoneNumber), maxAge: \(maxAge)")
 
