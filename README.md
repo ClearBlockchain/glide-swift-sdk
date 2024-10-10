@@ -1,11 +1,8 @@
 # GlideSwiftSDK
 
-
-
 ## Introduction
 
 `GlideSwiftSDK` is our SDK for integrating with our systems
-
 
 ## Installation
 
@@ -17,7 +14,6 @@
 pod 'GlideSwiftSDK'
 ```
 
-
 ### Swift Package Manager
 
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. To use GlideSwiftSDK with Swift Package Manger, add it to `dependencies` in your `Package.swift`
@@ -27,7 +23,6 @@ dependencies: [
     .package(url: "https://github.com/ClearBlockchain/GlideSwiftSDK.git")
 ]
 ```
-
 
 ## Usage
 
@@ -43,4 +38,9 @@ Second, configure the SDK, recommended in `didFinishLaunchingWithOptions` in `Ap
 Glide.configure()
 ```
 
+Third, authenticate wherever you need.
 
+```swift
+Glide.instance.startVerification (state: <YOUr_STATE>, phoneNumber: <PHONE_NUMBER>) { code, state in
+}
+```
