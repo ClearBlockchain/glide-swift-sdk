@@ -3,25 +3,25 @@ import Combine
 
 class GlideRepository : Repository {
     
-    let cibaAuthFlow: CibaAuthFlow!
+    let threeLeggedAuthFlow: ThreeLeggedAuthFlow!
     var cancellables = Set<AnyCancellable>()
     
-    init(cibaAuthFlow: CibaAuthFlow) {
-        self.cibaAuthFlow = cibaAuthFlow
+    init(threeLeggedAuthFlow : ThreeLeggedAuthFlow) {
+        self.threeLeggedAuthFlow = threeLeggedAuthFlow
     }
     
-    func cibaAuthenticate(authConfig: AuthConfigProtocol, config: GlideConfig, completion: @escaping (String) -> Void) {
-        guard let flow = cibaAuthFlow.authenticate(authConfig: authConfig, config: config) else {return}
+    internal func threeLeggedAuthenticate(config: ThreeLeggedConfig, completion: @escaping ((code: String, state: String)) -> Void) {
+        guard let flow = threeLeggedAuthFlow.authenticate(config: config) else {return}
         flow.sink(receiveCompletion: { [weak self] complete in
             self?.cancellables.removeAll()
             switch complete {
             case .failure(let error):
-                logger.error("CIBA Auth failed with error: \(error)")
+                logger.error("\(threeLeggedFlowName) failed with error: \(error)")
             default: break
             }
-        }, receiveValue: { token in
-            logger.info("CIBA Auth success with token: \(token)")
-            completion(token)
+        }, receiveValue: { response in
+            logger.info("\(threeLeggedFlowName) success with status: \(response)")
+            completion((code: response.code, state: response.state))
         })
         .store(in: &cancellables)
     }

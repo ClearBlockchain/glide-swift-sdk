@@ -1,6 +1,6 @@
 import Foundation
 
 protocol Repository {
-    func cibaAuthenticate(authConfig: AuthConfigProtocol, config: GlideConfig, completion : @escaping (String) -> Void)
+    func threeLeggedAuthenticate(config: ThreeLeggedConfig, completion : @escaping ((code: String, state: String)) -> Void)
 }
 
