@@ -35,12 +35,12 @@ import GlideSwiftSDK
 Second, configure the SDK, recommended in `didFinishLaunchingWithOptions` in `AppDelegare.swift`.
 
 ```swift
-Glide.configure()
+Glide.configure(clientId: <CLIENT_ID>)
 ```
 
 Third, authenticate wherever you need.
 
 ```swift
-Glide.instance.startVerification (state: <YOUr_STATE>, phoneNumber: <PHONE_NUMBER>) { code, state in
+Glide.instance.startVerification (state: <STATE>, phoneNumber: <PHONE_NUMBER>) { code, state in
 }
 ```
